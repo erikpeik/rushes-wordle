@@ -1,0 +1,6 @@
+jazzy
+stone
+earth
+solid
+cloth
+towel
