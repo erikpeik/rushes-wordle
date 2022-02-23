@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 18:28:22 by acastano          #+#    #+#             */
-/*   Updated: 2022/02/23 20:19:01 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/23 23:15:16 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int	ft_is_letter(char *word, char *guess)
 		}
 	return (0);
 	}
-*/
- /*
+
+
+
 int	ft_is_letteri(char *word, char *c)//returns index where it finds letter, or 5 if it doesn't find it
 {
 	int	i;
@@ -61,86 +62,106 @@ int	ft_is_letteri(char *word, char *c)//returns index where it finds letter, or 
 	}
 	return (i);
 }
+*/
 
-int	ft_get_info(char *word, char *answer)//fix
+int	ft_save_guess(char *guess, char **green, char **yellow)
 {
-	char	*info[4];
 //	char	*letters;//[27] = "abcdefghijklmnopqrstuvwxyz";//26
-	char	*yes;
-	char	*somewhere;
-	char	*not;
+	int		i;
 
-//	letters = "abcdefghijklmnopqrstuvwxyz";//26 + \0
-	yes = ft_strnew(5);
-	somewhere = ft_strnew(5);
-	not = '\0';
-//	info[0] = letters;
-	info[0] = yes;
-	info[1] = somewhere;
-	info[2] = not;
-	info[3] = NULL;
-	int	index = 0;
-	int	curr = 0;
-	while (i < 5)
+	i = 0;
+	printf("get to A\n");
+	if (*yellow == NULL)
+		*yellow = ft_strnew(5);
+	else
+		ft_memset(*yellow, '\0', 5);
+	printf("get to B\n");
+	while ((size_t)i < ft_strlen(guess))
 	{
-		curr = ft_is_letteri(word, answer[i]);
-		if (curr == i)
-			yes[i] = answer[i];
-		else if (curr < 5)
+		printf("get to C\n");
+		if (guess[i] >= 'A' && guess[i] <= 'Z')
 		{
-			somewhere[i] = answer[i];
+			printf("get to D\n");
+			if (*green == NULL)
+				*green = ft_strnew(5);
+			*green[i] = guess[i];
 		}
-		else
-		{
-			not = ft_strjoin(not, answer[i]);
-//take it from letters?
-		}
+		printf("get to E, yellow is %s\n", *yellow);
+		if (guess[i] >= 'a' && guess[i] <= 'z')
+			*yellow[i] = guess[i];
 		i++;
 	}
 	return (0);
 }
 
-int	ft_solver(char *word, char *guess)//burns, crawl
+int	ft_save_wrong(char *wrong, char **grey)
 {
-	if (ft_strequ(word, guess) == 1)
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	printf("get to 1\n");
+	if (*grey == NULL)
+		*grey = ft_strnew(26);//"abcdefghijklmnopqrstuvwxyz"
+	printf("get to 2\n");
+	while ((size_t)i < ft_strlen(wrong))
 	{
-		printf("You guessed correctly! The word is \033[0;32m%s\033[0m\n", guess);
-		return (0);
+		printf("get to 3\n");
+		j = (wrong[i] - 'a');
+		*grey[j] = wrong[i];
+		i++;
 	}
-	ft_get_info(word, guess);
+	printf("get to 4\n");
 	return (0);
 }
 
-int	ft_assistant(char *guess)//burns, crawl
+int	ft_assistant(char *guess, char *wrong)//a!s!E, il
 {
-	if (ft_strequ(word, guess) == 1)
+	static char	*info[4];//free at end
+
+//	if ()//TO DO: all caps in guess
+//	{
+//		printf("You guessed correctly! The word is \033[0;32m%s\033[0m\n", guess);
+//		ft_strdel(info);
+//		return (1);
+//	}
+	printf("get to 0, %s %zu, %s %zu\n", guess, ft_strlen(guess), wrong, ft_strlen(wrong));
+	if (ft_strlen(guess) > 0)
+		ft_save_guess(guess, &info[0], &info[1]);
+	printf("get to 0B\n");
+	if (ft_strlen(wrong) > 0)
+		ft_save_wrong(wrong, &info[2]);
+	printf("get to 0C\n");
+//Erik's code updates list based on the info in static variable
+	if (ft_strlen(info[0]) == 5)
 	{
 		printf("You guessed correctly! The word is \033[0;32m%s\033[0m\n", guess);
-		return (0);
+		ft_strdel(info);
+		return (1);
 	}
-	ft_get_info(word, guess);
+	printf("Correct letters: \033[0;32m%s\033[0m \nWrong place: \033[0;33m%s\033[0m \nNot in word: %s", info[0], info[1], info[2]);
 	return (0);
 }
-*/
 
-//int	main(int argc, char **argv)
 int	main(void)
 {
-//	char	*guess;
+	int		round;
+	char	guess[6];
+	char	wrong[6];
 
-	printf("Possible word list:\n\tblablabla\n\n");
-//Display list of possible words. Erik code
-//Instructions and ask for input
-	printf("Write two words separated by a space:\nFirst: if letter is\n\tin right place, substitute it for a CAPITAL LETTER\n\tin wrong place, write it as it is\n\twrong, substitute it for a !\nSecond: write the letters that were wrong. If there is no wrong letters, write 0 instead.\nExample: For \033[0;33ma\033[0mi\033[0;33ms\033[0ml\033[0;32me\033[0m you would write: a!s!E il\n");
-	if (argc != 2 || (ft_strlen(argv[1]) != 5))
+	round = 1;
+	printf("Possible word list:\n\tErik's code displays list here\n\n");
+	while (round <= 1)
 	{
-		ft_putstr("Only one word of 5 characters is allowed");
-		return (0);
+		printf("Round %d:\n\tWrite the guessed word so that\n\t\t- If a letter is green, substitute it for a CAPITAL LETTER\n\t\t- Letter is yellow, write it as it is\n\t\t- Letter is grey, substitute it for a !\n\t\tExample: For \033[0;33ma\033[0mi\033[0;33ms\033[0ml\033[0;32me\033[0m you would write: a!s!E\n", round);
+		scanf("%s", guess);
+		printf("\n\tWrite only the letters that were grey.\n\t\tExample: For \033[0;33ma\033[0mi\033[0;33ms\033[0ml\033[0;32me\033[0m you would write: il\n");
+		scanf("%s", wrong);
+		if (ft_assistant(guess, wrong) == 1)//correct word, end. TO DO: check free of static variable is in right place, and all frees
+			break;
+		printf("Possible word list:\n\tErik's code displays list here\n\n");
+		round++;
 	}
-	guess = argv[1];
-	ft_putstr("Your guess is: ");
-	ft_putstr(argv[1]);
-	ft_putstr("\n");
-	ft_solver(word, argv[1]);
 	return (0);
 }
