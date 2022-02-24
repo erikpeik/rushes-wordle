@@ -6,23 +6,25 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/24 18:26:33 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/24 19:31:37 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wordle.h"
-#include "../../libftproject/libftvogo/libft.h"
-//#include "libft.h"
-#include "../../gnl/gnlvogo/get_next_line.h"
+#include "libft.h"
+#include "get_next_line.h"
 #include <stdio.h>
 #include <stdlib.h>//free and exit
 
 void    free_wordlist(t_list **abl)
 {
-    if ((*abl)->next != NULL)
-        free_wordlist(&(*abl)->next);
-    free((*abl)->content);
-    free(*abl);
+	if (*abl != NULL)
+	{
+		if ((*abl)->next != NULL)
+			free_wordlist(&(*abl)->next);
+		free((*abl)->content);
+		free(*abl);
+	}
 }
 
 void	ft_lstpop(t_list **alst, char *content)
@@ -61,6 +63,22 @@ void	ft_lstadd_back(t_list **begin_list, t_list *new)
 	list->next = new;
 }
 
+void	ft_print_boohoo(void)
+{
+	ft_putendl("\n\t\033[0;31m ▄▄▄▄    ▒█████   ▒█████   ██░ ██  ▒█████   ▒█████  ");
+	ft_putendl("\t▓█████▄ ▒██▒  ██▒▒██▒  ██▒▓██░ ██▒▒██▒  ██▒▒██▒  ██▒");
+	ft_putendl("\t▒██▒ ▄██▒██░  ██▒▒██░  ██▒▒██▀▀██░▒██░  ██▒▒██░  ██▒");
+	ft_putendl("\t▒██░█▀  ▒██   ██░▒██   ██░░▓█ ░██ ▒██   ██░▒██   ██░");
+	ft_putendl("\t░▓█  ▀█▓░ ████▓▒░░ ████▓▒░░▓█▒░██▓░ ████▓▒░░ ████▓▒░");
+	ft_putendl("\t░▒▓███▀▒░ ▒░▒░▒░ ░ ▒░▒░▒░  ▒ ░░▒░▒░ ▒░▒░▒░ ░ ▒░▒░▒░ ");
+	ft_putendl("\t▒░▒   ░   ░ ▒ ▒░   ░ ▒ ▒░  ▒ ░▒░ ░  ░ ▒ ▒░   ░ ▒ ▒░ ");
+	ft_putendl("\t ░    ░ ░ ░ ░ ▒  ░ ░ ░ ▒   ░  ░░ ░░ ░ ░ ▒  ░ ░ ░ ▒  ");
+	ft_putendl("\t ░          ░ ░      ░ ░   ░  ░  ░    ░ ░      ░ ░  ");
+	ft_putendl("\t      ░                                             \033[0;37m");
+
+	ft_putstr("\t\t\033[1;31mNo words remaining... Or you used whitespaces -.-\033[0;37m\n\n");
+}
+
 int print_list(t_list *list)
 {
 	t_list	  *temp;
@@ -68,18 +86,7 @@ int print_list(t_list *list)
 
 	if (list == NULL)
 	{
-		ft_putendl("\n\t\033[0;31m ▄▄▄▄    ▒█████   ▒█████   ██░ ██  ▒█████   ▒█████  ");
-		ft_putendl("\t▓█████▄ ▒██▒  ██▒▒██▒  ██▒▓██░ ██▒▒██▒  ██▒▒██▒  ██▒");
-		ft_putendl("\t▒██▒ ▄██▒██░  ██▒▒██░  ██▒▒██▀▀██░▒██░  ██▒▒██░  ██▒");
-		ft_putendl("\t▒██░█▀  ▒██   ██░▒██   ██░░▓█ ░██ ▒██   ██░▒██   ██░");
-		ft_putendl("\t░▓█  ▀█▓░ ████▓▒░░ ████▓▒░░▓█▒░██▓░ ████▓▒░░ ████▓▒░");
-		ft_putendl("\t░▒▓███▀▒░ ▒░▒░▒░ ░ ▒░▒░▒░  ▒ ░░▒░▒░ ▒░▒░▒░ ░ ▒░▒░▒░ ");
-		ft_putendl("\t▒░▒   ░   ░ ▒ ▒░   ░ ▒ ▒░  ▒ ░▒░ ░  ░ ▒ ▒░   ░ ▒ ▒░ ");
-		ft_putendl("\t ░    ░ ░ ░ ░ ▒  ░ ░ ░ ▒   ░  ░░ ░░ ░ ░ ▒  ░ ░ ░ ▒  ");
-		ft_putendl("\t ░          ░ ░      ░ ░   ░  ░  ░    ░ ░      ░ ░  ");
-		ft_putendl("\t      ░                                             \033[0;37m");
-
-		ft_putstr("\t\t\033[1;31mNo words remaining... Or you used whitespaces -.-\033[0;37m\n\n");
+		ft_print_boohoo();
 		return (1);
 	}
 	temp = list;
@@ -308,11 +315,9 @@ int	main(void)
 		}
 		if ((remove_assistant(&word_list, guess, feedback) == 1) || (print_list(word_list) == 1))
 			break;
-//		else
-//			print_list(word_list);
 		round++;
 	}
 	free_wordlist(&word_list);
-	system("leaks a.out");
+	system("leaks wordle");
 	return (0);
 }
