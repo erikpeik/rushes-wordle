@@ -6,7 +6,7 @@
 /*   By: acastano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 18:28:22 by acastano          #+#    #+#             */
-/*   Updated: 2022/02/23 23:15:16 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/24 13:59:22 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ int	ft_save_guess(char *guess, char **green, char **yellow)
 	printf("get to A\n");
 	if (*yellow == NULL)
 		*yellow = ft_strnew(5);
-	else
-		ft_memset(*yellow, '\0', 5);
+	if (*green == NULL)
+		*green = ft_strnew(5);
+//	else
+		ft_memset(*yellow, '.', 5);
+		ft_memset(*green, '.', 5);
 	printf("get to B\n");
 	while ((size_t)i < ft_strlen(guess))
 	{
@@ -82,13 +85,13 @@ int	ft_save_guess(char *guess, char **green, char **yellow)
 		if (guess[i] >= 'A' && guess[i] <= 'Z')
 		{
 			printf("get to D\n");
-			if (*green == NULL)
-				*green = ft_strnew(5);
-			*green[i] = guess[i];
+//			if (*green == NULL)
+//				*green = ft_strnew(5);
+			(*green)[i] = guess[i];
 		}
 		printf("get to E, yellow is %s\n", *yellow);
 		if (guess[i] >= 'a' && guess[i] <= 'z')
-			*yellow[i] = guess[i];
+			(*yellow)[i] = guess[i];
 		i++;
 	}
 	return (0);
@@ -103,13 +106,16 @@ int	ft_save_wrong(char *wrong, char **grey)
 	j = 0;
 	printf("get to 1\n");
 	if (*grey == NULL)
+	{
 		*grey = ft_strnew(26);//"abcdefghijklmnopqrstuvwxyz"
+
+	}
 	printf("get to 2\n");
 	while ((size_t)i < ft_strlen(wrong))
 	{
 		printf("get to 3\n");
 		j = (wrong[i] - 'a');
-		*grey[j] = wrong[i];
+		(*grey)[j] = wrong[i];
 		i++;
 	}
 	printf("get to 4\n");
