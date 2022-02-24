@@ -6,7 +6,7 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/24 16:19:44 by emende           ###   ########.fr       */
+/*   Updated: 2022/02/24 16:50:06 by emende           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_lstadd_back(t_list **begin_list, t_list *new)
 void print_list(t_list *list)
 {
 	t_list	*temp;
+	int		i;
 
 	if (list == NULL)
 	{
@@ -61,10 +62,19 @@ void print_list(t_list *list)
 		exit (1);
 	}
 	temp = list;
+	i = 1;
+	ft_putendl("\033[1;32mPossible answers:\033[0;37m");
 	while (temp)
 	{
-		ft_putendl((char const *) temp->content);
+		ft_putstr((char const *) temp->content);
+		if (i % 5 == 0)
+			ft_putchar('\n');
+		else if (temp->next == NULL)
+			ft_putchar('\n');
+		else
+			ft_putstr(", "); 
 		temp = temp->next;
+		i++;
 	}
 }
 
