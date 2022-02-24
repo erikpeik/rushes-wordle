@@ -6,7 +6,7 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/24 19:31:37 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/24 23:08:32 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,33 @@ void	ft_print_congrats(void)
 	ft_putendl("░                                                                              \033[0;37m");
 }
 
+void	ft_loop_word(t_list **list, char *guess, char *feedback, char **green, char **yellow)
+{
+	int	i;
+
+	i = 0;
+	while (i < 5)
+	{
+		if (ft_isupper((int ) feedback[i]))
+			remove_false_green(list, guess[i], i, green);
+		i++;
+	}
+	i = 0;
+	while (i < 5)
+	{
+		if (ft_islower((int ) feedback[i]))
+			remove_yellow_words(list, guess[i], i, yellow);
+		i++;
+	}
+	i = 0;
+	while (i < 5)
+	{
+		if (feedback[i] == '!')
+			remove_gray_words(list, guess[i], green, yellow);
+		i++;
+	}
+}
+
 int	remove_assistant(t_list **list, char *guess, char *feedback)
 {
 	size_t	i;
@@ -239,7 +266,7 @@ int	remove_assistant(t_list **list, char *guess, char *feedback)
 		}
 	}
 	i = 0;
-	while (i < 5)
+/*	while (i < 5)
 	{
 		if (feedback[i] == '!')
 			remove_gray_words(list, guess[i], &greenletters, &yellowletters);
@@ -248,7 +275,8 @@ int	remove_assistant(t_list **list, char *guess, char *feedback)
 		else if (ft_isupper((int ) feedback[i]))
 			remove_false_green(list, guess[i], i, &greenletters);
 		i++;
-	}
+		}*/
+	ft_loop_word(list, guess, feedback, &greenletters, &yellowletters);
 	return (0);
 }
 
