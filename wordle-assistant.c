@@ -6,7 +6,7 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/24 13:55:44 by emende           ###   ########.fr       */
+/*   Updated: 2022/02/24 16:19:44 by emende           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int ft_isupper(int c)
 	return (c >= 'A' && c <= 'Z');
 }
 
-void	remove_gray_words(t_list **list, char c, char **greenletters)
+void	remove_gray_words(t_list **list, char c, char **greenletters, char **yellowletters)
 {
 	t_list	*temp;
 	char	*word;
@@ -91,7 +91,7 @@ void	remove_gray_words(t_list **list, char c, char **greenletters)
 		i = 0;
 		while (word[i])
 		{
-			if (word[i] == c && !(ft_strchr(*greenletters, c)))
+			if (word[i] == c && !(ft_strchr(*greenletters, c)) && !(ft_strchr(*yellowletters, c)))
 				ft_lstpop(list, word);
 			i++;
 		}
@@ -99,13 +99,26 @@ void	remove_gray_words(t_list **list, char c, char **greenletters)
 	}
 }
 
-void	remove_yellow_words(t_list **list, char c, size_t pos)
+void	remove_yellow_words(t_list **list, char c, size_t pos, char **yellowletters)
 {
 	t_list	*temp;
 	char	*word;
 	size_t	i;
 	size_t	count;
 
+	i = 0;
+	if (!ft_strchr((*yellowletters),  c))
+	{
+		while (i < 5)
+		{
+			if ((*yellowletters)[i] == '.')
+			{
+				(*yellowletters)[i] = c;
+				break;
+			}
+			i++;
+		}
+	}
 	temp = *list;
 	while (temp)
 	{
@@ -152,11 +165,17 @@ void	remove_assistant(t_list **list, char *guess, char *feedback)
 {
 	size_t	i;
 	static char	*greenletters;
+	static char	*yellowletters;
 
 	if (!greenletters)
 	{
 		greenletters = ft_strnew(5);
 		ft_memset(greenletters,  '.', 5);
+	}
+	if (!yellowletters)
+	{
+		yellowletters = ft_strnew(5);
+		ft_memset(yellowletters,  '.', 5);
 	}
 	i = 0;
 	while (ft_isupper((int) feedback[i]) && i < 5)
@@ -172,9 +191,9 @@ void	remove_assistant(t_list **list, char *guess, char *feedback)
 	while (i < 5)
 	{
 		if (feedback[i] == '!')
-			remove_gray_words(list, guess[i], &greenletters);
+			remove_gray_words(list, guess[i], &greenletters, &yellowletters);
 		if (ft_islower((int ) feedback[i]))
-			remove_yellow_words(list, guess[i], i);
+			remove_yellow_words(list, guess[i], i, &yellowletters);
 		else if (ft_isupper((int ) feedback[i]))
 			remove_false_green(list, guess[i], i, &greenletters);
 		i++;
