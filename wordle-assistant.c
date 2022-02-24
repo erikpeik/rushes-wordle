@@ -55,6 +55,11 @@ void print_list(t_list *list)
 {
 	t_list	*temp;
 
+	if (list == NULL)
+	{
+		ft_putendl_fd("No words remaining...", 2);
+		exit (1);
+	}
 	temp = list;
 	while (temp)
 	{
@@ -63,9 +68,107 @@ void print_list(t_list *list)
 	}
 }
 
-void remove_blank(t_list **list, char *guess)
+int	ft_islower(int c)
 {
+	return (c >= 'a' && c <= 'z');
+}
 
+int ft_isupper(int c)
+{
+	return (c >= 'A' && c <= 'Z');
+}
+
+void	remove_gray_words(t_list **list, char c)
+{
+	t_list	*temp;
+	char	*word;
+	int		i;
+
+	temp = *list;
+	while (temp)
+	{
+		word = (char *) temp->content;
+		i = 0;
+		while (word[i])
+		{
+			if (word[i] == c)
+				ft_lstpop(list, word);
+			i++;
+		}
+		temp = temp->next;
+	}
+}
+
+void	remove_yellow_words(t_list **list, char c, size_t pos)
+{
+	t_list	*temp;
+	char	*word;
+	size_t	i;
+	size_t	count;
+
+	temp = *list;
+	while (temp)
+	{
+		word = (char *) temp->content;
+		if (word[pos] == c)
+			ft_lstpop(list, word);
+		else
+		{
+			i = 0;
+			count = 0;
+			while (word[i])
+			{
+				if (word[i] == c)
+					count++;
+				i++;
+			}
+			if (count == 0)
+				ft_lstpop(list, word);
+		}
+		temp = temp->next;
+	}
+}
+
+void remove_false_green(t_list **list, char c, size_t i)
+{
+	t_list	*temp;
+	char	*word;
+
+	temp = *list;
+	while (temp)
+	{
+		word = (char *) temp->content;
+		if (word[i] != c)
+			ft_lstpop(list, word);
+		temp = temp->next;
+	}
+}
+
+void	remove_assistant(t_list **list, char *guess, char *feedback)
+{
+	size_t	i;
+
+	i = 0;
+	while (ft_isupper((int) feedback[i]) && i < 5)
+	{
+		i++;
+		if (i == 5)
+		{
+			ft_putendl("Congratz!");
+			exit (1);
+		}
+	}
+	i = 0;
+	while (i < 5)
+	{
+		if (feedback[i] == '!')
+			remove_gray_words(list, guess[i]);
+		if (ft_islower((int ) feedback[i]))
+			remove_yellow_words(list, guess[i], i);
+		else if (ft_isupper((int ) feedback[i]))
+			remove_false_green(list, guess[i], i);
+		i++;
+	}
 }
 
 int	main(void)
@@ -79,7 +182,9 @@ int	main(void)
 	t_list	*word_list;
 	t_list *temp;
 
-	fd = open("easy_test.txt", O_RDONLY);
+//	line = ft_strnew(10);
+//	guess = ft_strnew(10);
+	fd = open("wordle-answers.txt", O_RDONLY);
 	if (fd < 0)
 	{
 		ft_putstr_fd("error\n", 2);
@@ -99,7 +204,7 @@ int	main(void)
 	i = 0;
 	temp = word_list;
 /*	temp = temp->next->next; */
-	ft_lstpop(&word_list, "five");
+//	ft_lstpop(&word_list, "five");
 //	print_list(word_list);
 	round = 1;
 	while (round <= 5)
@@ -108,10 +213,12 @@ int	main(void)
 		scanf("%s", guess);
 //		remove_blank(&word_list, guess);
 //		printf("Your guess: %s\n", guess);
-	printf("Feedback %d: ", round);
+		printf("Feedback %d: ", round);
 		scanf("%s", feedback);
+		remove_assistant(&word_list, guess, feedback);
 //		printf("Your feedback: %s\n", feedback);
 		print_list(word_list);
 		round++;
 	}
+	return (0);
 }
