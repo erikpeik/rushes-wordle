@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   worldle-assistant.c                                :+:      :+:    :+:   */
+/*   wordle-assistant.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emende <emende@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/23 18:31:08 by emende           ###   ########.fr       */
+/*   Updated: 2022/02/24 13:55:44 by emende           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int ft_isupper(int c)
 	return (c >= 'A' && c <= 'Z');
 }
 
-void	remove_gray_words(t_list **list, char c)
+void	remove_gray_words(t_list **list, char c, char **greenletters)
 {
 	t_list	*temp;
 	char	*word;
@@ -91,7 +91,7 @@ void	remove_gray_words(t_list **list, char c)
 		i = 0;
 		while (word[i])
 		{
-			if (word[i] == c)
+			if (word[i] == c && !(ft_strchr(*greenletters, c)))
 				ft_lstpop(list, word);
 			i++;
 		}
@@ -129,11 +129,15 @@ void	remove_yellow_words(t_list **list, char c, size_t pos)
 	}
 }
 
-void remove_false_green(t_list **list, char c, size_t i)
+void remove_false_green(t_list **list, char c, size_t i,  char **greenletters)
 {
 	t_list	*temp;
 	char	*word;
+//	static char	greenletters[6];
 
+//	if (!greenletters)
+//		ft_memset(greenletters,  '.', 5);
+	(*greenletters)[i] = c;
 	temp = *list;
 	while (temp)
 	{
@@ -147,7 +151,13 @@ void remove_false_green(t_list **list, char c, size_t i)
 void	remove_assistant(t_list **list, char *guess, char *feedback)
 {
 	size_t	i;
+	static char	*greenletters;
 
+	if (!greenletters)
+	{
+		greenletters = ft_strnew(5);
+		ft_memset(greenletters,  '.', 5);
+	}
 	i = 0;
 	while (ft_isupper((int) feedback[i]) && i < 5)
 	{
@@ -162,11 +172,11 @@ void	remove_assistant(t_list **list, char *guess, char *feedback)
 	while (i < 5)
 	{
 		if (feedback[i] == '!')
-			remove_gray_words(list, guess[i]);
+			remove_gray_words(list, guess[i], &greenletters);
 		if (ft_islower((int ) feedback[i]))
 			remove_yellow_words(list, guess[i], i);
 		else if (ft_isupper((int ) feedback[i]))
-			remove_false_green(list, guess[i], i);
+			remove_false_green(list, guess[i], i, &greenletters);
 		i++;
 	}
 }
@@ -181,7 +191,9 @@ int	main(void)
 	char	feedback[10];
 	t_list	*word_list;
 	t_list *temp;
+//	static char	greenletters[6];
 
+//	ft_memset(greenletters,  '.', 5);
 //	line = ft_strnew(10);
 //	guess = ft_strnew(10);
 	fd = open("wordle-answers.txt", O_RDONLY);
