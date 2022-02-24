@@ -6,7 +6,7 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:18:47 by emende            #+#    #+#             */
-/*   Updated: 2021/12/07 23:57:18 by emende           ###   ########.fr       */
+/*   Updated: 2022/02/24 20:55:46 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	{
 		list->content = NULL;
 		list->content_size = 0;
+		list->content_score = 0;
 	}
 	else
 	{
@@ -35,6 +36,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 		}
 		ft_memcpy(list->content, content, content_size);
 		list->content_size = content_size;
+		list->content_score = 0;
 	}
 	list->next = NULL;
 	return (list);
