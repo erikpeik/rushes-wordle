@@ -6,7 +6,7 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/25 02:09:52 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/25 02:23:44 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int	remove_assistant(t_list **list, char *guess, char *feedback)
 	size_t	i;
 	static char	*greenletters;
 	static char	*yellowletters;
-}
+
 	if (!greenletters)
 	{
 		greenletters = ft_strnew(5);
@@ -297,7 +297,6 @@ char	*ft_get_best(t_list **list)
 		{
 			best_word = (char *)temp->content;
 			best_score = temp->content_score;
-			printf(" %s : %zu\n ", best_word, best_score);
 		}
 		temp = temp->next;
 	}
@@ -340,12 +339,12 @@ int	main(void)
 	while (round <= 6)
 	{
 		printf("\n\t-----------------------------------------------------------------\n");
-		printf("\n\tRound %d: ", round);
+		printf("\n\tRound %d:\n", round);
 		if (round == 1)
 			guess = ft_strcpy(guess, "audio");
 		else
 			guess = ft_strcpy(guess, ft_get_best(&word_list));
-		printf("\n\tBest guessing word: %s", guess);
+		printf("\n\tBest guessing word: %s\n", guess);
 		printf("\n\tFeedback %d: ", round);
 		scanf("%s", feedback);
 		while (ft_strlen(feedback) != 5)
