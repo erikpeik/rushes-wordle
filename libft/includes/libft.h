@@ -105,6 +105,8 @@ size_t	ft_strclen(char const *s, char c);
 size_t	ft_intlen(int n);
 int		ft_isspace(int c);
 int		ft_ispunct(int c);
+int		ft_isupper(int c);
+int		ft_islower(int c);
 char	*ft_strrev(char *s);
 char	*ft_strndup(const char *s1, size_t n);
 

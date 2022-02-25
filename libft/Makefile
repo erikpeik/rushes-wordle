@@ -26,7 +26,7 @@ SRCS_LIST = ft_atoi.c ft_bzero.c ft_intlen.c ft_isalnum.c ft_isalpha.c \
 			ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c ft_tolower.c \
 			ft_toupper.c ft_strrev.c ft_ispunct.c ft_lstnew.c ft_lstdelone.c \
 			ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strndup.c \
-			get_next_line.c
+			get_next_line.c ft_isupper.c ft_islower.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 
