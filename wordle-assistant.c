@@ -6,15 +6,13 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/24 23:08:32 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/25 02:10:01 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wordle.h"
 #include "libft.h"
 #include "get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>//free and exit
 
 void    free_wordlist(t_list **abl)
 {
@@ -63,22 +61,6 @@ void	ft_lstadd_back(t_list **begin_list, t_list *new)
 	list->next = new;
 }
 
-void	ft_print_boohoo(void)
-{
-	ft_putendl("\n\t\033[0;31m ▄▄▄▄    ▒█████   ▒█████   ██░ ██  ▒█████   ▒█████  ");
-	ft_putendl("\t▓█████▄ ▒██▒  ██▒▒██▒  ██▒▓██░ ██▒▒██▒  ██▒▒██▒  ██▒");
-	ft_putendl("\t▒██▒ ▄██▒██░  ██▒▒██░  ██▒▒██▀▀██░▒██░  ██▒▒██░  ██▒");
-	ft_putendl("\t▒██░█▀  ▒██   ██░▒██   ██░░▓█ ░██ ▒██   ██░▒██   ██░");
-	ft_putendl("\t░▓█  ▀█▓░ ████▓▒░░ ████▓▒░░▓█▒░██▓░ ████▓▒░░ ████▓▒░");
-	ft_putendl("\t░▒▓███▀▒░ ▒░▒░▒░ ░ ▒░▒░▒░  ▒ ░░▒░▒░ ▒░▒░▒░ ░ ▒░▒░▒░ ");
-	ft_putendl("\t▒░▒   ░   ░ ▒ ▒░   ░ ▒ ▒░  ▒ ░▒░ ░  ░ ▒ ▒░   ░ ▒ ▒░ ");
-	ft_putendl("\t ░    ░ ░ ░ ░ ▒  ░ ░ ░ ▒   ░  ░░ ░░ ░ ░ ▒  ░ ░ ░ ▒  ");
-	ft_putendl("\t ░          ░ ░      ░ ░   ░  ░  ░    ░ ░      ░ ░  ");
-	ft_putendl("\t      ░                                             \033[0;37m");
-
-	ft_putstr("\t\t\033[1;31mNo words remaining... Or you used whitespaces -.-\033[0;37m\n\n");
-}
-
 int print_list(t_list *list)
 {
 	t_list	  *temp;
@@ -105,16 +87,6 @@ int print_list(t_list *list)
 		i++;
 	}
 	return (0);
-}
-
-int	ft_islower(int c)
-{
-	return (c >= 'a' && c <= 'z');
-}
-
-int ft_isupper(int c)
-{
-	return (c >= 'A' && c <= 'Z');
 }
 
 void	remove_gray_words(t_list **list, char c, char **greenletters, char **yellowletters)
@@ -197,21 +169,6 @@ void remove_false_green(t_list **list, char c, size_t i,  char **greenletters)
 	}
 }
 
-void	ft_print_congrats(void)
-{
-	printf("\n\t-----------------------------------------------------------------\n");
-	ft_putendl("\033[1;32m ▄████▄   ▒█████   ███▄    █   ▄████  ██▀███   ▄▄▄     ▄▄▄█████▓  ██████  ▐██▌ ");
-	ft_putendl("▒██▀ ▀█  ▒██▒  ██▒ ██ ▀█   █  ██▒ ▀█▒▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒▒██    ▒  ▐██▌ ");
-	ft_putendl("▒▓█    ▄ ▒██░  ██▒▓██  ▀█ ██▒▒██░▄▄▄░▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░░ ▓██▄    ▐██▌ ");
-	ft_putendl("▒▓▓▄ ▄██▒▒██   ██░▓██▒  ▐▌██▒░▓█  ██▓▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░   ▒   ██▒ ▓██▒ ");
-	ft_putendl("▒ ▓███▀ ░░ ████▓▒░▒██░   ▓██░░▒▓███▀▒░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░ ▒██████▒▒ ▒▄▄  ");
-	ft_putendl("░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒  ░▒   ▒ ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░   ▒ ▒▓▒ ▒ ░ ░▀▀▒ ");
-	ft_putendl("  ░  ▒     ░ ▒ ▒░ ░ ░░   ░ ▒░  ░   ░   ░▒ ░ ▒░  ▒   ▒▒ ░   ░    ░ ░▒  ░ ░ ░  ░ ");
-	ft_putendl("░        ░ ░ ░ ▒     ░   ░ ░ ░ ░   ░   ░░   ░   ░   ▒    ░      ░  ░  ░      ░ ");
-	ft_putendl("░ ░          ░ ░           ░       ░    ░           ░  ░              ░   ░    ");
-	ft_putendl("░                                                                              \033[0;37m");
-}
-
 void	ft_loop_word(t_list **list, char *guess, char *feedback, char **green, char **yellow)
 {
 	int	i;
@@ -266,27 +223,8 @@ int	remove_assistant(t_list **list, char *guess, char *feedback)
 		}
 	}
 	i = 0;
-/*	while (i < 5)
-	{
-		if (feedback[i] == '!')
-			remove_gray_words(list, guess[i], &greenletters, &yellowletters);
-		if (ft_islower((int ) feedback[i]))
-			remove_yellow_words(list, guess[i], i, &yellowletters);
-		else if (ft_isupper((int ) feedback[i]))
-			remove_false_green(list, guess[i], i, &greenletters);
-		i++;
-		}*/
 	ft_loop_word(list, guess, feedback, &greenletters, &yellowletters);
 	return (0);
-}
-
-void	ft_printrules(void)
-{
-	printf("\n\tGUESS RULES:\tWrite the guessed word in lowercase letters\n\t\t\tWrite only 5 letters\n");
-	printf("\n\tFEEDBACK RULES:\tWrite the feedback word so that if a letter is \n\t\t\t- green, substitute it for a CAPITAL LETTER");
-	printf("\n\t\t\t- yellow, write it as it is\n\t\t\t- grey, substitute it for a !\n");
-	printf("\n\tEXAMPLE:\tFor \033[0;33mA\033[0mI\033[0;33mS\033[0mL\033[0;32mE\033[0m you would write: a!s!E\n");
-	printf("\n\tIMPORTANT:\tDO NOT USE WHITESPACES (SPACES, TABS, ...)\n\t\t\tOr you will experience undefined behaviour\n\n\t\t\tGOOD LUCK\n");
 }
 
 int	main(void)

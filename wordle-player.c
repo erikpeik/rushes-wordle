@@ -6,15 +6,13 @@
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/25 01:40:27 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/25 02:09:52 by acastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wordle.h"
 #include "libft.h"
 #include "get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>//free and exit
 
 void    free_wordlist(t_list **abl)
 {
@@ -63,22 +61,6 @@ void	ft_lstadd_back(t_list **begin_list, t_list *new)
 	list->next = new;
 }
 
-void	ft_print_boohoo(void)
-{
-	ft_putendl("\n\t\033[0;31m ▄▄▄▄    ▒█████   ▒█████   ██░ ██  ▒█████   ▒█████  ");
-	ft_putendl("\t▓█████▄ ▒██▒  ██▒▒██▒  ██▒▓██░ ██▒▒██▒  ██▒▒██▒  ██▒");
-	ft_putendl("\t▒██▒ ▄██▒██░  ██▒▒██░  ██▒▒██▀▀██░▒██░  ██▒▒██░  ██▒");
-	ft_putendl("\t▒██░█▀  ▒██   ██░▒██   ██░░▓█ ░██ ▒██   ██░▒██   ██░");
-	ft_putendl("\t░▓█  ▀█▓░ ████▓▒░░ ████▓▒░░▓█▒░██▓░ ████▓▒░░ ████▓▒░");
-	ft_putendl("\t░▒▓███▀▒░ ▒░▒░▒░ ░ ▒░▒░▒░  ▒ ░░▒░▒░ ▒░▒░▒░ ░ ▒░▒░▒░ ");
-	ft_putendl("\t▒░▒   ░   ░ ▒ ▒░   ░ ▒ ▒░  ▒ ░▒░ ░  ░ ▒ ▒░   ░ ▒ ▒░ ");
-	ft_putendl("\t ░    ░ ░ ░ ░ ▒  ░ ░ ░ ▒   ░  ░░ ░░ ░ ░ ▒  ░ ░ ░ ▒  ");
-	ft_putendl("\t ░          ░ ░      ░ ░   ░  ░  ░    ░ ░      ░ ░  ");
-	ft_putendl("\t      ░                                             \033[0;37m");
-
-	ft_putstr("\t\t\033[1;31mNo words remaining... Or you used whitespaces -.-\033[0;37m\n\n");
-}
-
 int print_list(t_list *list)
 {
 	t_list	  *temp;
@@ -109,17 +91,6 @@ int print_list(t_list *list)
 	return (0);
 }
 
-int	ft_islower(int c)
-{
-	return (c >= 'a' && c <= 'z');
-}
-
-int ft_isupper(int c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
-//void	remove_gray_words(t_list **list, char c, size_t pos, char **greenletters, char **yellowletters)
 void	remove_gray_words(t_list **list, char c, char **greenletters, char **yellowletters)
 {
 	t_list	*temp;
@@ -127,23 +98,6 @@ void	remove_gray_words(t_list **list, char c, char **greenletters, char **yellow
 	int		i;
 
 	temp = *list;
-/*	while (temp)
-	{
-		word = (char *) temp->content;
-		if (word[pos] == c)
-			ft_lstpop(list, word);
-		else
-		{
-			i = 0;
-			while (word[i])
-			{
-				if (word[i] == c && !(ft_strchr(*greenletters, c)) && !(ft_strchr(*yellowletters, c)))
-					ft_lstpop(list, word);
-				i++;
-			}
-		}
-		temp = temp->next;
-		}*/
     while (temp)
     {
         word = (char *) temp->content;
@@ -217,21 +171,6 @@ void remove_false_green(t_list **list, char c, size_t i,  char **greenletters)
 	}
 }
 
-void	ft_print_congrats(void)
-{
-	printf("\n\t-----------------------------------------------------------------\n");
-	ft_putendl("\033[1;32m ▄████▄   ▒█████   ███▄    █   ▄████  ██▀███   ▄▄▄     ▄▄▄█████▓  ██████  ▐██▌ ");
-	ft_putendl("▒██▀ ▀█  ▒██▒  ██▒ ██ ▀█   █  ██▒ ▀█▒▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒▒██    ▒  ▐██▌ ");
-	ft_putendl("▒▓█    ▄ ▒██░  ██▒▓██  ▀█ ██▒▒██░▄▄▄░▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░░ ▓██▄    ▐██▌ ");
-	ft_putendl("▒▓▓▄ ▄██▒▒██   ██░▓██▒  ▐▌██▒░▓█  ██▓▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░   ▒   ██▒ ▓██▒ ");
-	ft_putendl("▒ ▓███▀ ░░ ████▓▒░▒██░   ▓██░░▒▓███▀▒░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░ ▒██████▒▒ ▒▄▄  ");
-	ft_putendl("░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒  ░▒   ▒ ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░   ▒ ▒▓▒ ▒ ░ ░▀▀▒ ");
-	ft_putendl("  ░  ▒     ░ ▒ ▒░ ░ ░░   ░ ▒░  ░   ░   ░▒ ░ ▒░  ▒   ▒▒ ░   ░    ░ ░▒  ░ ░ ░  ░ ");
-	ft_putendl("░        ░ ░ ░ ▒     ░   ░ ░ ░ ░   ░   ░░   ░   ░   ▒    ░      ░  ░  ░      ░ ");
-	ft_putendl("░ ░          ░ ░           ░       ░    ░           ░  ░              ░   ░    ");
-	ft_putendl("░                                                                              \033[0;37m");
-}
-
 void	ft_loop_word(t_list **list, char *guess, char *feedback, char **green, char **yellow)
 {
 	int	i;
@@ -264,7 +203,7 @@ int	remove_assistant(t_list **list, char *guess, char *feedback)
 	size_t	i;
 	static char	*greenletters;
 	static char	*yellowletters;
-
+}
 	if (!greenletters)
 	{
 		greenletters = ft_strnew(5);
@@ -286,29 +225,9 @@ int	remove_assistant(t_list **list, char *guess, char *feedback)
 		}
 	}
 	i = 0;
-/*	while (i < 5)
-	{
-		if (feedback[i] == '!')
-			remove_gray_words(list, guess[i], &greenletters, &yellowletters);
-		if (ft_islower((int ) feedback[i]))
-			remove_yellow_words(list, guess[i], i, &yellowletters);
-		else if (ft_isupper((int ) feedback[i]))
-			remove_false_green(list, guess[i], i, &greenletters);
-		i++;
-		}*/
 	ft_loop_word(list, guess, feedback, &greenletters, &yellowletters);
 	return (0);
 }
-
-void	ft_printrules(void)
-{
-	printf("\n\tGUESS RULES:\tWrite the guessed word in lowercase letters\n\t\t\tWrite only 5 letters\n");
-	printf("\n\tFEEDBACK RULES:\tWrite the feedback word so that if a letter is \n\t\t\t- green, substitute it for a CAPITAL LETTER");
-	printf("\n\t\t\t- yellow, write it as it is\n\t\t\t- grey, substitute it for a !\n");
-	printf("\n\tEXAMPLE:\tFor \033[0;33mA\033[0mI\033[0;33mS\033[0mL\033[0;32mE\033[0m you would write: a!s!E\n");
-	printf("\n\tIMPORTANT:\tDO NOT USE WHITESPACES (SPACES, TABS, ...)\n\t\t\tOr you will experience undefined behaviour\n\n\t\t\tGOOD LUCK\n");
-}
-
 
 int	ft_check_dup(char *word, size_t i, char c)
 {
@@ -324,12 +243,11 @@ int	ft_check_dup(char *word, size_t i, char c)
 	return (1);
 }
 
-void ft_scorecalculator(t_list **list)//calculate for each element of list the content_score
+void ft_score_calculator(t_list **list)
 {
 	size_t	*letter_occurence;
 	t_list	*temp;
 	char	*word;
-//	char	*wordtemp;
 	size_t	score;
 	size_t	i;
 
@@ -418,25 +336,16 @@ int	main(void)
 	round = 1;
 	printf("\n\t\t\tWelcome to WORLDE ASSISTANT\n\t-----------------------------------------------------------------\n");
 	ft_printrules();
-	ft_scorecalculator(&word_list);
+	ft_score_calculator(&word_list);
 	while (round <= 6)
 	{
 		printf("\n\t-----------------------------------------------------------------\n");
 		printf("\n\tRound %d: ", round);
-//		ft_scorecalculator(&word_list);
-//		guess = (char *) word_list;
 		if (round == 1)
 			guess = ft_strcpy(guess, "audio");
 		else
 			guess = ft_strcpy(guess, ft_get_best(&word_list));
 		printf("\n\tBest guessing word: %s", guess);
-//		scanf("%s", guess);
-/*		while (ft_strlen(guess) != 5)
-		{
-			printf("\n\tGUESS RULES:\tWrite the guessed word in lowercase letters\n\t\t\tWrite only 5 letters\n");
-			printf("\n\tGuess %d: ", round);
-			scanf("%s", guess);
-			}*/
 		printf("\n\tFeedback %d: ", round);
 		scanf("%s", feedback);
 		while (ft_strlen(feedback) != 5)
@@ -449,13 +358,12 @@ int	main(void)
 		}
 		if ((remove_assistant(&word_list, guess, feedback) == 1))
 			break;
-		ft_scorecalculator(&word_list);
+		ft_score_calculator(&word_list);
 		if (print_list(word_list) == 1)
 			break;
 		round++;
 	}
 	ft_strdel(&guess);
 	free_wordlist(&word_list);
-	system("leaks wordle");//TO DO
 	return (0);
 }
