@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wordle-assistant.c                                 :+:      :+:    :+:   */
+/*   wordle-player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emende <emende@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 13:25:55 by emende            #+#    #+#             */
-/*   Updated: 2022/02/25 02:23:44 by acastano         ###   ########.fr       */
+/*   Updated: 2022/02/25 02:40:54 by emende           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_lstpop(t_list **alst, char *content)
 	t_list	*temp;
 	t_list	*next;
 
+	if (!(*alst))
+		return ;
 	temp = *alst;
 	if (temp->content == content)
 	{
