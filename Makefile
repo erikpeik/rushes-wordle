@@ -6,7 +6,7 @@
 #    By: acastano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/24 18:41:43 by acastano          #+#    #+#              #
-#    Updated: 2022/02/24 23:18:22 by acastano         ###   ########.fr        #
+#    Updated: 2022/02/25 02:13:49 by acastano         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -17,8 +17,8 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = wordle-assistant
 NAME2 = wordle-player
 
-SRCS = wordle-assistant.c
-SRCS2 = wordle-player.c
+SRCS = wordle-assistant.c wordle-prints.c
+SRCS2 = wordle-player.c wordle-prints.c
 
 HEADERS = ./libft/includes/
 
