@@ -13,3 +13,6 @@
 3. Run the executable of your choice without any arguments. Instructions will be displayed after running the program.
 
    **Have fun!**
+
+***Wordle-assistant:***
+![wordle-assitant](https://user-images.githubusercontent.com/52178013/159175158-a7d0566c-bdf4-4eb4-860c-39607331a3eb.png)
